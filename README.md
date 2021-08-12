@@ -13,4 +13,4 @@
    - GND GND
    - D3  OUT
 
-[[!Схема](https://raw.githubusercontent.com/Octagon80/ESP8266_mqtt_infopanel/main/Schematic_kv152-InfoPanel-NodeMCU.png  "Схема")]
+[![Схема](https://raw.githubusercontent.com/Octagon80/ESP8266_mqtt_infopanel/main/Schematic_kv152-InfoPanel-NodeMCU.png)]
