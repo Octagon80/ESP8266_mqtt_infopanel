@@ -4,7 +4,7 @@
    Изменено: 2020-05-22
 
    Подключение NodeMCU к LCD1604 через i2c
-   NodeMCU I2C 1602 LCD
+   NodeMCU I2C 1604 LCD
    Vin VCC
    GND GND
    D1  SCL
@@ -27,8 +27,9 @@
       с индивидуальными топиками MQTT. М.б. в роутере организовать явное выделение специфического IP для каждой
       инфопанеле, а инфопанель будет обращаться к топику, который будет именован общим префиксом, плюс IP инфопанели.
 */
-
 #include <kv152_cfg.h>
+
+
 #include <ESP8266WiFi.h>
 #include <PubSubClient.h>
 #include <Wire.h>  // This library is already built in to the Arduino IDE
@@ -49,15 +50,15 @@ LiquidCrystal_I2C lcd(LCDI2CADRESS, 16, 2);
 LiquidCrystal_I2C lcd(LCDI2CADRESS, 20, 4);
 #endif
 
+const char* ssid       = WIFISSID;
+const char* password   = WIFIPASSWORD;
 
-const char* ssid      = WIFISSID;
-const char* password  = WIFIPASSWORD;
+  //Настройка MQTT сервера
+  const char *mqtt_server    = MQTTSERVER;
+  const char *mqtt_clientId  = "InfoPanelESP";
+  const char *mqtt_user      = MQTTUSER;
+  const char *mqtt_password  = MQTTPASSWORD;
 
-const char* mqtt_server = MQTTSERVER;
-const char *clientUser = MQTTUSER;
-const char *clientPwd  = MQTTPASSWORD;
-const char *clientId = "InfoPanelESP";
-    
 
 #define MQTT_TOPIC_IN "kv152/infopanel"
 #define MQTT_TOPIC_OUT "kv152/motion"
@@ -209,12 +210,7 @@ void reconnect() {
 
     strcpy(msg, "MQTT .." ); LcdPrint(1, 0, msg, strlen(msg)  );
 
-
-
-    // Attempt to connect
-    //if you MQTT broker has clientID,username and password
-    //please change following line to    if (client.connect(clientId,userName,passWord))
-    if (client.connect(clientId, clientUser, clientPwd  ))
+    if (client.connect(mqtt_clientId, mqtt_user, mqtt_password  ))
     {
 #if DEBUG
       Serial.println("connected");
